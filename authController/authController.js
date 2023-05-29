@@ -45,7 +45,19 @@ module.exports.login_post = async (req, res) => {
 module.exports.add_task = async (req, res) => {
   const { title, desc, isComplete } = req.body;
   try {
-    const task = await Tasks.create({ title: title, desc: desc, isComplete: isComplete })
+    let keys = title + ", " + desc
+    const task = await Tasks.create({ title: title, desc: desc, isComplete: isComplete, keywords: keys })
+    res.status(200).json({ success: true, task: task });
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+}
+
+module.exports.edit_task = async (req, res) => {
+  const { title, desc, isComplete, _id } = req.body;
+  try {
+    let keys = title + ", " + desc
+    const task = await Tasks.updateOne({ _id: _id }, { title: title, desc: desc, isComplete: isComplete, keywords: keys })
     res.status(200).json({ success: true, task: task });
   } catch (error) {
     res.status(400).json({ error });
@@ -53,8 +65,8 @@ module.exports.add_task = async (req, res) => {
 }
 
 module.exports.taskList = async (req, res) => {
-  const { filter } = req.body;
-  const find = filter == "all" ? {} : filter == "active" ? {isComplete:false} : {isComplete:true}
+  const { filter, search } = req.body;
+  const find = filter == "all" ? { keywords: { $regex: search, $options: "i" } } : filter == "active" ? { $and: [{ keywords: { $regex: search, $options: "i" } }, { isComplete: false }] } : { $and: [{ keywords: { $regex: search, $options: "i" } }, { isComplete: true }] }
   try {
     const tasks = await Tasks.find(find)
     res.status(200).json({ success: true, tasks: tasks });
@@ -67,13 +79,45 @@ module.exports.change_status = async (req, res) => {
   const { id, isComplete } = req.body;
   try {
     const tasks = await Tasks.updateOne({ _id: id }, { isComplete: isComplete })
-    res.status(200).json({ success: true});
+    res.status(200).json({ success: true });
   } catch (error) {
     res.status(400).json({ error });
   }
 }
 
-module.exports.logout_get = async (req, res) => {
-  res.cookie("jwt", "", { maxAge: 1 });
-  res.redirect("/");
-};
+module.exports.delete_completed = async (req, res) => {
+  try {
+    const tasks = await Tasks.deleteMany({ isComplete: true })
+    if (tasks.deletedCount) {
+      res.status(200).json({ success: true });
+    } else {
+      res.status(200).json({ success: false });
+    }
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+}
+
+module.exports.delete_task = async (req, res) => {
+  const { id } = req.body
+  try {
+    const tasks = await Tasks.deleteOne({ _id: id })
+    if (tasks.deletedCount) {
+      res.status(200).json({ success: true });
+    } else {
+      res.status(200).json({ success: false });
+    }
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+}
+
+module.exports.undon_delete = async (req, res) => {
+  const { data } = req.body
+  try {
+    const tasks = await Tasks.insertMany(data)
+    res.status(200).json({ success: true, tasks: tasks });
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+}
