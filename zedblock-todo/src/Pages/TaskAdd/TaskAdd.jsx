@@ -51,7 +51,7 @@ export default function TaskAdd() {
             <TextField fullWidth label="Title" name='title' helperText={"Max 50 Characters are allow"} variant="outlined" onChange={(e) => changeHandler(e)} />
           </Grid>
           <Grid item sm={12}>
-            <TextField fullWidth label="Description" helperText={"Max 256 Characters are allow"} name='desc' multiline rows={8} variant="outlined" onChange={(e) => changeHandler(e)} />
+            <TextField fullWidth label="Description" helperText={"Max 256 Characters are allow"} name='desc' multiline rows={6} variant="outlined" onChange={(e) => changeHandler(e)} />
           </Grid>
           <Grid item>
             <Button disabled={formValidate()} onClick={(e) => { submitHandler(e) }} variant="contained">Add</Button>

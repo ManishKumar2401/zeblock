@@ -27,10 +27,16 @@ const dateTime = () => {
 // Login Function
 module.exports.login_post = async (req, res) => {
   const { email, password } = req.body;
+  const uid = new Date().getTime()
+  console.log(req.body);
+  console.log(uid);
   try {
-    const user = await Users.login(email, password);
-    const token = createToken(user._id + "-" + user.role);
-    res.status(200).json({ id: user._id, name: user.username, email: user.email, role: user.role, token: token, maxAge: maxAge });
+    if(email === "user@gmail.com" && password === "User@123"){
+      const token = createToken(uid);
+      res.status(200).json({ id: uid, name: "User", email: email, token: token, maxAge: maxAge });
+    } else{
+      res.status(400).json({ message: "Email or password is incorrect." });
+    }
   } catch (error) {
     if (error.message.includes("incorrect email")) {
       res.status(400).json({ message: "Email is not exist, please check email." });

@@ -51,7 +51,7 @@ export default function TaskEdit() {
             <TextField fullWidth label="Title" name='title' helperText={"Max 50 Characters are allow"} variant="outlined" value={formData.title} onChange={(e) => changeHandler(e)} />
           </Grid>
           <Grid item sm={12}>
-            <TextField fullWidth label="Description" name='desc' helperText={"Max 120 Characters are allow"} value={formData.desc} multiline rows={8} variant="outlined" onChange={(e) => changeHandler(e)} />
+            <TextField fullWidth label="Description" name='desc' helperText={"Max 120 Characters are allow"} value={formData.desc} multiline rows={6} variant="outlined" onChange={(e) => changeHandler(e)} />
           </Grid>
           <Grid item>
             <Button disabled={formValidate} onClick={(e) => { submitHandler(e) }} variant="contained">Update</Button>
