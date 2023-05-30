@@ -1,17 +1,3 @@
-export const live = {
-  url: "https://www.worldwebtrade.com",
-  imgUrl: "https://www.worldwebtrade.com/public/image/",
-  productImg: "https://www.worldwebtrade.com/public/image/products/",
-  companyUrl: "https://www.worldwebtrade.com/public/image/company/",
-  planUrl: "https://www.worldwebtrade.com/public/image/membership/",
-  gallery: "https://www.worldwebtrade.com/public/image/gallery/",
-  trendProduct: "https://www.worldwebtrade.com/public/image/trendingproduct/",
-  categorycard: "https://www.worldwebtrade.com/public/image/categorycard/",
-  bannerUrl: "https://www.worldwebtrade.com/public/image/banners/",
-  logosUrl: "https://www.worldwebtrade.com/public/image/logos/",
-  blogImg: "https://www.worldwebtrade.com/public/image/blogs/",
-}
-
 export const local = {
   url: "http://localhost:5000",
   imgUrl: "http://localhost:5000/public/image/",
@@ -26,4 +12,4 @@ export const local = {
   logosUrl: "http://localhost:5000/public/image/logos/",
 }
 
-export const api =  process.env.NODE_ENV === "development" ? local : live
+export const api = local

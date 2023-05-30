@@ -42,15 +42,9 @@ app.get("*", checkUser);
 app.get("/home", (req, res) => res.render("index"));
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '/frontend/build')));
+  app.use(express.static(path.join(__dirname, '/zedblock-todo/build')));
   app.get('/*', (req, res) =>
-  res.sendFile(path.join(__dirname, '/', 'frontend', 'build', 'index.html'))
-  );
-  app.get('/admin', (req, res) =>
-  res.sendFile(path.join(__dirname, '/', 'frontend', 'build', 'index.html'))
-  );
-  app.get('/company/:id', (req, res) =>
-  res.sendFile(path.join(__dirname, '/', 'frontend', 'build', 'index.html'))
+  res.sendFile(path.join(__dirname, '/', 'zedblock-todo', 'build', 'index.html'))
   );
 } else {
   app.get('/', (req, res) => res.send('Site is Updating, Please wait few time'));
